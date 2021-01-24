@@ -1,0 +1,485 @@
+*knn
+import numpy as np
+import pandas as pd
+
+Data = pd.read_csv('diabetes.csv')
+Data.head()
+
+X=Data[['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age']].values
+y=Data['Outcome'].values
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+y = le.fit_transform(y)
+y
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
+
+Data.describe()
+
+k = (np.sqrt(len(X_train)))/2
+k = round(k)
+if k%2 == 0:
+  k =k+1
+k=int(k)
+k
+
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix, accuracy_score
+classifier=KNeighborsClassifier(n_neighbors=k)
+classifier.fit(X_train, y_train)
+
+y_pred = classifier.predict(X_test)
+y_pred
+
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pred)
+cm
+
+from sklearn.metrics import accuracy_score
+acc = accuracy_score(y_test, y_pred) * 100
+acc
+
+df = pd.DataFrame({'Real Values':y_test, 'Predicted Values':y_pred})
+df
+
+i = 0
+count = 0
+wrong = []
+right = []
+for i in range(len(df)):
+  if df.iloc[i][0] == df.iloc[i][1]:
+    i = i+1
+    right.append(i)
+  else:
+    wrong.append(i)
+#count
+print("Wrong:" , len(wrong) )
+print("Right: " , len(right) )
+
+*naivi
+
+import numpy as np
+import pandas as pd
+
+Data = pd.read_csv('diabetes.csv')
+Data.head()
+
+X=Data[['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age']].values
+y=Data['Outcome'].values
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+y = le.fit_transform(y)
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+
+
+Data.describe()
+
+
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.fit_transform(X_test)
+
+from sklearn.naive_bayes import GaussianNB
+model = GaussianNB()
+model.fit(X_train,y_train)
+
+y_pred = model.predict(X_test)
+y_pred
+
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pred)
+cm
+
+from sklearn.metrics import accuracy_score
+acc = accuracy_score(y_test, y_pred) * 100
+acc
+
+df = pd.DataFrame({'Real Values':y_test, 'Predicted Values':y_pred})
+df
+
+i = 0
+count = 0
+wrong = []
+right = []
+for i in range(len(df)):
+  if df.iloc[i][0] == df.iloc[i][1]:
+    i = i+1
+    right.append(i)
+  else:
+    wrong.append(i)
+#count
+print("Wrong:" , len(wrong) )
+print("Right: " , len(right) )
+
+
+*examknn
+
+import numpy as np
+import pandas as pd
+
+
+
+Data = pd.read_csv('play_data.csv')
+Data.head()
+
+
+
+from sklearn.preprocessing import LabelEncoder
+le=LabelEncoder()
+Data["outlook"]=le.fit_transform(Data["outlook"])
+Data["temp"]=le.fit_transform(Data["temp"])
+Data["humidity"]=le.fit_transform(Data["humidity"])
+Data["wind"]=le.fit_transform(Data["wind"])
+Data["play"]=le.fit_transform(Data["play"])
+Data.head()
+
+
+
+x=Data[['outlook','temp','humidity','wind']].values
+y=Data['play'].values
+
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.3)
+
+
+Data.describe()
+
+
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+x_train = sc.fit_transform(x_train)
+x_test = sc.fit_transform(x_test)
+x_test
+
+
+from sklearn.naive_bayes import GaussianNB
+model = GaussianNB()
+model.fit(x_train,y_train)
+
+
+
+y_pred = model.predict(x_test)
+y_pred
+
+
+
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pred)
+cm
+
+
+
+from sklearn.metrics import accuracy_score
+acc = accuracy_score(y_test, y_pred) * 100
+acc
+
+
+
+df = pd.DataFrame({'Real Values':y_test, 'Predicted Values':y_pred})
+df
+
+new_pred = model.predict([[2,0,1,0]])
+new_pred[0]
+
+*linerregressin
+
+import pandas as pd
+
+
+data = pd.read_csv('Salary_Data.csv')
+data.head()
+
+data.info()
+
+x = Data[['YearsExperience']].values
+y = Data['Salary'].values
+y
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=0)
+y_test
+
+from sklearn.linear_model import LinearRegression
+lin = LinearRegression()
+model = lin.fit(x_train,y_train)
+
+y_pred = model.predict(x_test)
+y_pred
+
+from sklearn.metrics import r2_score
+r2 = r2_score(y_test, ypred)
+r2
+
+def lin_plot_fun():
+  plt.scatter(x,y,color="red")
+  plt.plot(x,model.predict(x),color="blue")
+  plt.title("Linere")
+  plt.draw()
+  return
+lin_plot_fun()
+
+*polynominala
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+Data = pd.read_csv('Salaries.csv')
+Data.head()
+
+x = Data[['Level']].values
+y = Data['Salary'].values
+y
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=0)
+y_test
+
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+poly_reg = PolynomialFeatures(degree=4)
+x_poly = poly_reg.fit_transform(x)
+
+lin = LinearRegression()
+model_lin = lin.fit(x_poly,y)
+
+def poly_fun():
+  plt.scatter(x,y,color="red")
+  plt.plot(x,model_lin.predict(x_poly),color="blue")
+  plt.draw()
+  return
+poly_fun()
+
+*uart*
+
+import serial
+import sqlite3
+import time
+
+connection = sqlite3.connect("uartDB")
+crsr = connection.cursor()
+
+if __name__ == '__main__':
+	ser = serial.Serial('/dev/ttyACM0',9600,timeout=1)
+	ser.flush()
+	while 1:
+		if ser.in_waiting > 0:
+			line = ser.readline().decode('utf-8').rstrip()
+			if(len(line) > 0):
+				print("Arduino is connected with data: {}".format(line))
+				sql_command="""INSERT INTO uartData(message,msgTime) VALUES('{}', CURRENT_TIMESTAMP)""".format(line)
+				crsr.execute(sql_command)
+				connection.commit()
+			time.sleep(2)
+
+
+
+*i2c*
+from smbus import SMBus
+import time
+addr=0x8
+bus=SMBus(1)
+
+num=1
+print("1 for on 0 for off ")
+
+while num==1:
+	ledstate=input(">> enter 0 or 1: ")
+	if ledstate=="1":
+		bus.write_byte(addr,0x1)
+		y=bus.read_byte_data(addr,0x1)
+		print(y)
+		time.sleep(5)
+	elif ledstate=="0":
+		bus.write_byte(addr,0x0)
+	else:
+		num=0
+
+
+*spi*
+import spidev
+import time
+
+spi = spidev.SpiDev(0,0)
+spi.open(0,0)
+spi.max_speed_hz = 115200
+
+while 1:
+	spi.writebytes([0x4,0x06])
+	y = spi.readbytes(1)
+	if(len(y)>0):
+		print("Arduino is connected with data: {}".format(y))
+	time.sleep(2)
+
+
+*simple_publisher*
+import context
+import paho.mqtt.client as mqtt
+import time
+
+broker_url = "broker.emqx.io"
+broker_port = 1883
+
+client = mqtt.Client()
+client.connect(broker_url, broker_port)
+
+while True:
+    try:
+      mydata = "Hello MQTT"
+      print(mydata)
+      client.publish(topic="testTopic", payload=mydata, qos=0, retain=False)
+      time.sleep(3.0)
+    except:
+    	print("error while publishing")
+
+
+*simple_subscriber*
+import context
+import sqlite3
+import paho.mqtt.client as mqtt
+
+connection = sqlite3.connect("myDB.db")
+crsr = connection.cursor()
+
+def on_message(client, userdata, msg):
+	msg.payload = msg.payload.decode("utf-8")
+	print(msg.topic+" "+str(msg.payload))
+	sql_command="""INSERT INTO myTB(msg) values('{}')""".format(str(msg.payload))
+	crsr.execute(sql_command)
+	connection.commit()
+
+broker_url="broker.emqx.io"
+broker_port=1883
+
+client = mqtt.Client()
+client.on_message = on_message
+
+client.connect(broker_url,broker_port)
+client.subscribe("testTopic",qos=0)
+
+client.loop_forever()
+
+
+
+*dht_publish*
+import context
+import adafruit_dht
+import time
+import board
+import paho.mqtt.client as mqtt
+import json
+
+dhtDevice = adafruit_dht.DHT11(board.D4)
+broker_url = "broker.emqx.io"
+broker_port = 1883
+
+client = mqtt.Client()
+client.connect(broker_url, broker_port)
+
+while True:
+    try:
+      temperature_c = dhtDevice.temperature
+      humidity = dhtDevice.humidity
+      temperature_data = json.dumps({'Temperature':temperature_c, 'Humidity':humidity})
+      print(temperature_data)
+      client.publish(topic="dhtDataTopic", payload=temperature_data, qos=0, retain=False)
+    except RuntimeError as error:
+      print(error.args[0])
+      time.sleep(3.0)
+      continue
+    except Exception as errorr:
+      dhtDevice.exit()
+      raise error
+    time.sleep(3.0)
+	
+	except:
+		print("there is error")
+	time.sleep(3.0)
+
+
+
+*dht_subsrcibe*
+import json
+import context
+import time
+import sqlite3
+import paho.mqtt.client as mqtt
+
+connection = sqlite3.connect("yat_testDB.db")
+crsr = connection.cursor()
+
+def on_message(client, userdata, msg):
+	#print(msg.topic+ " "+ str(msg.payload))
+	decodedData = msg.payload.decode("utf-8") 
+	#print(decodedData)
+	temperatureData = json.loads(decodedData)
+	temperature_c = temperatureData["Temperature"]
+	humidity = temperatureData["Humidity"]
+	sql_command = """INSERT INTO dht_data(temperature,humidity,notice_time) VALUES('{}','{}',CURRENT_TIMESTAMP)""".format(str(temperature_c),str(humidity))
+	#print(sql_command)
+	crsr.execute(sql_command)
+	connection.commit()
+
+broker_url = "broker.emqx.io"
+broker_port = 1883
+
+client = mqtt.Client()
+client.on_message = on_message
+
+client.connect(broker_url,broker_port)
+client.subscribe("dhtDataTopic", qos=0)
+
+client.loop_forever()
+
+
+*pir
+import Rpi.GPIO from GPIO
+import time
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(24,GPIO.OUT)
+GPIO.setup(18,GPIO.IN)
+while True:
+	input_state = GPIO.input(18)
+	if input_state == True:
+		print('motion detected')
+		time.sleep(1)
+		GPIO.output(24, True)
+		time.sleep(1)
+		GPIO.output(24, False)
+		time.sleep(1)
+
+
+*get latest 10 data one by one
+
+import sqlite3
+import time
+
+connection = sqlite3.connect("mydb.db")
+crsr = connection.cursur()
+
+sql_command = """SELECT * FROM(SELECT * FROM mytb ORDER BY int DESC LIMIT 10) ORDER BY int"""
+crsc.execute(sql_command)
+rows = crsr.fetchall()
+
+for row in rows:
+	print(row)
+	time.sleep(1)
+
+*cpu-data
+
+import psutil
+import time
+
+while True:
+	cpu_percent = psutil.cpu_percent(interval=20)
+	ram_percent = psutil.virtual_memory().percent
+	print("Cpu: {}, RAM: {}".format(cpu_percent, ram_percent))
+	time.sleep(3)
